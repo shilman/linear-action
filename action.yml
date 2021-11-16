@@ -27,5 +27,5 @@ inputs:
     required: true
     description: 'A linear API key to write to your linear project'
 runs:
-  using: 'node12'
+  using: 'node14'
   main: 'dist/index.js'
