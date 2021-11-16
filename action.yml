@@ -1,11 +1,31 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Linear export'
+description: 'Export github issues to linear on label'
+author: 'Michael Shilman'
 inputs:
-  milliseconds: # change this
+  ghIssueNumber:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'The github issue number to export'
+  ghRepoName:
+    required: true
+    description: 'The github repo name of the form "owner/repo"'
+  ghToken:
+    required: true
+    description: 'A github API token to query your repo'
+  linearIssuePrefix:
+    required: true
+    description: 'A unique prefix to add to the title of your exported linear issue'
+  linearLabel:
+    required: false
+    description: 'A label to add to linear issues created from this action'
+  linearPRLabel:
+    required: false
+    description: 'A label to add to linear issues created from this action that are PRs'
+  linearTeam:
+    required: true
+    description: 'The name of your linear team'
+  linearApiKey:
+    required: true
+    description: 'A linear API key to write to your linear project'
 runs:
   using: 'node12'
   main: 'dist/index.js'
