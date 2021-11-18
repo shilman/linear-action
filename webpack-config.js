@@ -4,7 +4,7 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  target: 'node12',
+  target: 'node14',
   entry: './lib/main.js',
   externalsPresets: {node: true},
   // devtool: 'source-map',

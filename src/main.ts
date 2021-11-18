@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import {linearExport} from './linear-export'
 
 async function run(): Promise<void> {
+  core.debug(`Exporting to linear`)
   try {
     const ghIssueNumber: number = parseInt(core.getInput('ghIssueNumber'), 10)
     const ghRepoName: string = core.getInput('ghRepoName')
@@ -12,7 +13,7 @@ async function run(): Promise<void> {
     const linearTeam: string = core.getInput('linearTeam')
     const linearApiKey: string = core.getInput('linearApiKey')
 
-    core.debug(`Exporting to linear`)
+    core.debug(`Parsed args`)
 
     core.debug(new Date().toTimeString())
     const url = await linearExport({

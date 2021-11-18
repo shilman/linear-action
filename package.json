@@ -11,8 +11,9 @@
     "lint": "eslint src/**/*.ts",
     "package-ncc": "ncc build --source-map --license licenses.txt",
     "package-webpack": "webpack --config=webpack-config.js --stats-error-details",
-    "package": "npm run package-webpack",
+    "package": "npm run package-ncc",
     "test": "jest",
+    "update": "git tag -fa v1 -m 'Update v1 tag' && git push origin v1 --force",
     "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
   },
   "repository": {
