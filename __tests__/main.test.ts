@@ -3,7 +3,8 @@ import {expect, test} from '@jest/globals'
 
 const baseArgs = {
   ghIssueNumber: 1,
-  ghRepoName: 'storybookjs/storybook',
+  ghRepoOwner: 'storybookjs',
+  ghRepoName: 'storybook',
   ghToken: 'ghToken',
   linearIssuePrefix: 'SB',
   linearTeam: 'CH',

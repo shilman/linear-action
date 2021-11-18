@@ -5,9 +5,12 @@ inputs:
   ghIssueNumber:
     required: true
     description: 'The github issue number to export'
+  ghRepoOwner:
+    required: true
+    description: 'The github repo owner'
   ghRepoName:
     required: true
-    description: 'The github repo name of the form "owner/repo"'
+    description: 'The github repo name'
   ghToken:
     required: true
     description: 'A github API token to query your repo'

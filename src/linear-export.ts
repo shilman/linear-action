@@ -12,15 +12,15 @@ type GHIssue = {
 }
 
 const getGHIssue = async (
-  issueId: number,
-  repoName: string,
+  issue: number,
+  owner: string,
+  name: string,
   github: GHQuery
 ): Promise<GHIssue> => {
-  const [owner, repo] = repoName.split('/')
   const data = await github(
     `
     query($owner: String!, $repo: String!, $issue: Int!) {
-      repository(owner:$owner, name:$repo) {
+      repository(owner:$owner, name:$name) {
         issueOrPullRequest(number: $issue) {
           __typename
           ... on Issue {
@@ -38,12 +38,12 @@ const getGHIssue = async (
     }`,
     {
       owner,
-      repo,
-      issue: issueId
+      name,
+      issue
     }
   )
   const {title, body, url, __typename} = data.repository.issueOrPullRequest
-  return {id: issueId, title, body, url, isPr: __typename === 'PullRequest'}
+  return {id: issue, title, body, url, isPr: __typename === 'PullRequest'}
 }
 
 const findLinearIssue = async (
@@ -62,6 +62,7 @@ const getLabelId = (labelName: string, labels: IssueLabel[]): string => {
 
 interface LinearExportArgs {
   ghIssueNumber: number
+  ghRepoOwner: string
   ghRepoName: string
   ghToken: string
   linearIssuePrefix: string
@@ -73,6 +74,7 @@ interface LinearExportArgs {
 
 export const linearExport = async ({
   ghIssueNumber,
+  ghRepoOwner,
   ghRepoName,
   ghToken,
   linearIssuePrefix,
@@ -90,7 +92,7 @@ export const linearExport = async ({
 
   debug(`Linear export ${ghIssueNumber}`)
 
-  const issue = await getGHIssue(ghIssueNumber, ghRepoName, github)
+  const issue = await getGHIssue(ghIssueNumber, ghRepoOwner, ghRepoName, github)
   const issueKey = `${linearIssuePrefix}${ghIssueNumber}`
   const existingIssue = await findLinearIssue(issueKey, linear)
   if (existingIssue) {

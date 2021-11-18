@@ -5,6 +5,7 @@ async function run(): Promise<void> {
   core.debug(`Exporting to linear`)
   try {
     const ghIssueNumber: number = parseInt(core.getInput('ghIssueNumber'), 10)
+    const ghRepoOwner: string = core.getInput('ghRepoOwner')
     const ghRepoName: string = core.getInput('ghRepoName')
     const ghToken: string = core.getInput('ghToken')
     const linearIssuePrefix: string = core.getInput('issuePrefix')
@@ -18,6 +19,7 @@ async function run(): Promise<void> {
     core.debug(new Date().toTimeString())
     const url = await linearExport({
       ghIssueNumber,
+      ghRepoOwner,
       ghRepoName,
       ghToken,
       linearIssuePrefix,

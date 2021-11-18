@@ -10959,11 +10959,10 @@ exports.linearExport = void 0;
 const core_1 = __nccwpck_require__(2186);
 const sdk_1 = __nccwpck_require__(8851);
 const github_client_1 = __nccwpck_require__(5307);
-const getGHIssue = (issueId, repoName, github) => __awaiter(void 0, void 0, void 0, function* () {
-    const [owner, repo] = repoName.split('/');
+const getGHIssue = (issue, owner, name, github) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield github(`
     query($owner: String!, $repo: String!, $issue: Int!) {
-      repository(owner:$owner, name:$repo) {
+      repository(owner:$owner, name:$name) {
         issueOrPullRequest(number: $issue) {
           __typename
           ... on Issue {
@@ -10980,11 +10979,11 @@ const getGHIssue = (issueId, repoName, github) => __awaiter(void 0, void 0, void
       }
     }`, {
         owner,
-        repo,
-        issue: issueId
+        name,
+        issue
     });
     const { title, body, url, __typename } = data.repository.issueOrPullRequest;
-    return { id: issueId, title, body, url, isPr: __typename === 'PullRequest' };
+    return { id: issue, title, body, url, isPr: __typename === 'PullRequest' };
 });
 const findLinearIssue = (issueKey, linear) => __awaiter(void 0, void 0, void 0, function* () {
     const existing = yield linear.issueSearch(issueKey);
@@ -10996,14 +10995,14 @@ const getLabelId = (labelName, labels) => {
         throw new Error(`Couldn't find label ${labelName}`);
     return found.id;
 };
-const linearExport = ({ ghIssueNumber, ghRepoName, ghToken, linearIssuePrefix, linearLabel, linearPRLabel, linearTeam, linearApiKey }) => __awaiter(void 0, void 0, void 0, function* () {
+const linearExport = ({ ghIssueNumber, ghRepoOwner, ghRepoName, ghToken, linearIssuePrefix, linearLabel, linearPRLabel, linearTeam, linearApiKey }) => __awaiter(void 0, void 0, void 0, function* () {
     if (isNaN(ghIssueNumber)) {
         throw new Error(`ghIssueNumber must be a number`);
     }
     const linear = new sdk_1.LinearClient({ apiKey: linearApiKey });
     const github = (0, github_client_1.githubClient)(ghToken);
     (0, core_1.debug)(`Linear export ${ghIssueNumber}`);
-    const issue = yield getGHIssue(ghIssueNumber, ghRepoName, github);
+    const issue = yield getGHIssue(ghIssueNumber, ghRepoOwner, ghRepoName, github);
     const issueKey = `${linearIssuePrefix}${ghIssueNumber}`;
     const existingIssue = yield findLinearIssue(issueKey, linear);
     if (existingIssue) {
@@ -11080,6 +11079,7 @@ function run() {
         core.debug(`Exporting to linear`);
         try {
             const ghIssueNumber = parseInt(core.getInput('ghIssueNumber'), 10);
+            const ghRepoOwner = core.getInput('ghRepoOwner');
             const ghRepoName = core.getInput('ghRepoName');
             const ghToken = core.getInput('ghToken');
             const linearIssuePrefix = core.getInput('issuePrefix');
@@ -11091,6 +11091,7 @@ function run() {
             core.debug(new Date().toTimeString());
             const url = yield (0, linear_export_1.linearExport)({
                 ghIssueNumber,
+                ghRepoOwner,
                 ghRepoName,
                 ghToken,
                 linearIssuePrefix,
