@@ -1,5 +1,5 @@
 /* eslint-disable sort-imports */
-import {debug} from '@actions/core'
+import {info} from '@actions/core'
 import {IssueLabel, LinearClient, Issue as LinearIssue} from '@linear/sdk'
 import {GHQuery, githubClient} from './github-client'
 
@@ -90,13 +90,13 @@ export const linearExport = async ({
   const linear = new LinearClient({apiKey: linearApiKey})
   const github = githubClient(ghToken)
 
-  debug(`Linear export ${ghIssueNumber}`)
+  info(`Linear export ${ghIssueNumber}`)
 
   const issue = await getGHIssue(ghIssueNumber, ghRepoOwner, ghRepoName, github)
   const issueKey = `${linearIssuePrefix}${ghIssueNumber}`
   const existingIssue = await findLinearIssue(issueKey, linear)
   if (existingIssue) {
-    debug(`Existing linear issue, skipping: ${existingIssue.url}`)
+    info(`Existing linear issue, skipping: ${existingIssue.url}`)
     return
   }
 
@@ -116,7 +116,7 @@ export const linearExport = async ({
   const linearIssue = await created?.issue
   if (!linearIssue) throw new Error(`Couldn't create issue ${issueKey}`)
 
-  debug(`Created ${linearIssue?.url}`)
+  info(`Created ${linearIssue?.url}`)
 
   await linear.attachmentCreate({
     issueId: linearIssue.id,
