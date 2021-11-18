@@ -1,5 +1,5 @@
 /* eslint-disable sort-imports */
-import {info as debug} from '@actions/core'
+import {debug} from '@actions/core'
 import {IssueLabel, LinearClient, Issue as LinearIssue} from '@linear/sdk'
 import {GHQuery, githubClient} from './github-client'
 

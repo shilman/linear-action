@@ -11001,12 +11001,12 @@ const linearExport = ({ ghIssueNumber, ghRepoOwner, ghRepoName, ghToken, linearI
     }
     const linear = new sdk_1.LinearClient({ apiKey: linearApiKey });
     const github = (0, github_client_1.githubClient)(ghToken);
-    (0, core_1.info)(`Linear export ${ghIssueNumber}`);
+    (0, core_1.debug)(`Linear export ${ghIssueNumber}`);
     const issue = yield getGHIssue(ghIssueNumber, ghRepoOwner, ghRepoName, github);
     const issueKey = `${linearIssuePrefix}${ghIssueNumber}`;
     const existingIssue = yield findLinearIssue(issueKey, linear);
     if (existingIssue) {
-        (0, core_1.info)(`Existing linear issue, skipping: ${existingIssue.url}`);
+        (0, core_1.debug)(`Existing linear issue, skipping: ${existingIssue.url}`);
         return;
     }
     const team = yield linear.team(linearTeam);
@@ -11025,7 +11025,7 @@ const linearExport = ({ ghIssueNumber, ghRepoOwner, ghRepoName, ghToken, linearI
     const linearIssue = yield (created === null || created === void 0 ? void 0 : created.issue);
     if (!linearIssue)
         throw new Error(`Couldn't create issue ${issueKey}`);
-    (0, core_1.info)(`Created ${linearIssue === null || linearIssue === void 0 ? void 0 : linearIssue.url}`);
+    (0, core_1.debug)(`Created ${linearIssue === null || linearIssue === void 0 ? void 0 : linearIssue.url}`);
     yield linear.attachmentCreate({
         issueId: linearIssue.id,
         title: issue.title,
