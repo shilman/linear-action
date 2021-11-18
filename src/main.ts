@@ -8,7 +8,7 @@ async function run(): Promise<void> {
     const ghRepoOwner: string = core.getInput('ghRepoOwner')
     const ghRepoName: string = core.getInput('ghRepoName')
     const ghToken: string = core.getInput('ghToken')
-    const linearIssuePrefix: string = core.getInput('issuePrefix')
+    const linearIssuePrefix: string = core.getInput('linearIssuePrefix')
     const linearLabel: string = core.getInput('linearLabel')
     const linearPRLabel: string = core.getInput('linearPRLabel')
     const linearTeam: string = core.getInput('linearTeam')

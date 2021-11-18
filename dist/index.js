@@ -11082,7 +11082,7 @@ function run() {
             const ghRepoOwner = core.getInput('ghRepoOwner');
             const ghRepoName = core.getInput('ghRepoName');
             const ghToken = core.getInput('ghToken');
-            const linearIssuePrefix = core.getInput('issuePrefix');
+            const linearIssuePrefix = core.getInput('linearIssuePrefix');
             const linearLabel = core.getInput('linearLabel');
             const linearPRLabel = core.getInput('linearPRLabel');
             const linearTeam = core.getInput('linearTeam');
