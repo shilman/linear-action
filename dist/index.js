@@ -10961,7 +10961,7 @@ const sdk_1 = __nccwpck_require__(8851);
 const github_client_1 = __nccwpck_require__(5307);
 const getGHIssue = (issue, owner, name, github) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield github(`
-    query($owner: String!, $repo: String!, $issue: Int!) {
+    query($owner: String!, $name: String!, $issue: Int!) {
       repository(owner:$owner, name:$name) {
         issueOrPullRequest(number: $issue) {
           __typename

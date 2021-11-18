@@ -19,7 +19,7 @@ const getGHIssue = async (
 ): Promise<GHIssue> => {
   const data = await github(
     `
-    query($owner: String!, $repo: String!, $issue: Int!) {
+    query($owner: String!, $name: String!, $issue: Int!) {
       repository(owner:$owner, name:$name) {
         issueOrPullRequest(number: $issue) {
           __typename
